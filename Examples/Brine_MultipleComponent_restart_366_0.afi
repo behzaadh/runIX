@@ -1,0 +1,15 @@
+#################################
+# IXFVERSION: 2023.4 (20231213.1)
+#################################
+
+SIMULATION ix "Brine_MultipleComponent" {
+  INCLUDE "Brine_MultipleComponent.gsg" { type="gsg" gsg_type="geom_and_props" }
+  INCLUDE "Brine_MultipleComponent_ECL2IX_IX.ixf" { type="ixf" skip_model_def="true" }
+  INCLUDE "Brine_MultipleComponent_reservoir_edits.ixf" { type="ixf" preserve="True" skip_model_def="true" }
+}
+SIMULATION fm {
+  INCLUDE "Brine_MultipleComponent_ECL2IX_FM.ixf" { type="ixf" skip_model_def="true" }
+  INCLUDE "Brine_MultipleComponent_fm_edits.ixf" { type="ixf" preserve="True" skip_model_def="true" }
+  EXTENSION "custom_scripts"
+}
+INCLUDE "Brine_MultipleComponent.0000" { time="366.0" type="restart" }

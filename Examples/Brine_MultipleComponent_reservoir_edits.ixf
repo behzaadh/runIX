@@ -1,0 +1,20 @@
+#################################
+# IXFVERSION: 2023.4 (20231213.1)
+#################################
+# this file was created without the process-grid-edits option (default workflow)
+
+MODEL_DEFINITION
+#  Use the following commands to control the size of time steps
+#TimeStepSizingControls {
+#    InitialTimeStep=0.5
+#    MinTimeStep=0.1
+#    MaxTimeStep=60
+#}
+
+#  Use the following commands to control the linear solver
+#  They can be set at any time in the simulation
+#LinearControls {
+#    MaxRelativeResidualNorm=1.0e-3
+#    MaxIters=20
+#    NumberOrthogonalizationVectors=20
+#}

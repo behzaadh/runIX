@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<IX><Version>2</Version><WellBulkData>wellbulkdata</WellBulkData><WellName>PROD1</WellName><WellDefaultDepth>9.22500000000000000000e+03
+</WellDefaultDepth><WellBoreFluidModel>PVTNUM_1</WellBoreFluidModel><WellName>PROD2</WellName><WellDefaultDepth>9.27500000000000000000e+03
+</WellDefaultDepth><WellBoreFluidModel>PVTNUM_1</WellBoreFluidModel><WellName>PROD3</WellName><WellDefaultDepth>9.27500000000000000000e+03
+</WellDefaultDepth><WellBoreFluidModel>PVTNUM_1</WellBoreFluidModel><WellName>PROD4</WellName><WellDefaultDepth>9.17500000000000000000e+03
+</WellDefaultDepth><WellBoreFluidModel>PVTNUM_1</WellBoreFluidModel><WellName>IW1</WellName><WellDefaultDepth>9.37500000000000000000e+03
+</WellDefaultDepth><WellBoreFluidModel>PVTNUM_1</WellBoreFluidModel><WellName>IW2</WellName><WellDefaultDepth>9.37500000000000000000e+03
+</WellDefaultDepth><WellBoreFluidModel>PVTNUM_1</WellBoreFluidModel><WellName>IW3</WellName><WellDefaultDepth>9.37500000000000000000e+03
+</WellDefaultDepth><WellBoreFluidModel>PVTNUM_1</WellBoreFluidModel><WellName>IG1</WellName><WellDefaultDepth>9.02500000000000000000e+03
+</WellDefaultDepth><WellBoreFluidModel>PVTNUM_1</WellBoreFluidModel><WellName>IG2</WellName><WellDefaultDepth>9.02500000000000000000e+03
+</WellDefaultDepth><WellBoreFluidModel>PVTNUM_1</WellBoreFluidModel></IX>

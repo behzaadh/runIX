@@ -1,0 +1,17 @@
+#################################
+# IXFVERSION: 2023.4 (20231213.1)
+#################################
+# this file was created without the process-grid-edits option (default workflow)
+
+MODEL_DEFINITION
+#  Use the following commands to add GOPR & WOPR summary reporting
+#XYPlotSummaryReport "MigratorSummaryReport" {
+#    GroupProperties "AllGroupProperties" {
+#        GroupNames=["*"]
+#        add_property(property_name="OIL_PRODUCTION_RATE" report_label="GOPR")
+#    }
+#    WellProperties "AllWellProperties" {
+#        WellNames=["*"]
+#        add_property(property_name="OIL_PRODUCTION_RATE" report_label="WOPR")
+#    }
+#}

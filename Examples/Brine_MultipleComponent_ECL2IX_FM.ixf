@@ -1,0 +1,770 @@
+#################################
+# IXFVERSION: 2023.4 (20231213.1)
+#################################
+
+MODEL_DEFINITION
+
+Units {
+    UnitSystem=ECLIPSE_FIELD
+}
+
+FieldManagement {
+    StartDay=1
+    StartMonth=JANUARY
+    StartYear=2000
+    UptimeMode=CONTEXTUAL
+}
+
+EclReports {
+    MaxWells=9
+    MaxGroups=4
+    MaxConnections=4
+    MaxSegments=50
+}
+
+FieldManagementStandardReport {
+    GroupReportFrequency=REPORT_TIME
+    GroupReportVerbosity=1
+    WellReportFrequency=REPORT_TIME
+    WellReportVerbosity=1
+}
+
+Initial3DReport "MigratorInitialReport" {
+    On=TRUE
+    Units=ECLIPSE_FIELD
+    FileFormat=BINARY
+    select_all()
+    add_property(property_name=SATURATION_FUNCTION_DRAINAGE_TABLE_NO    report_label="SATNUM")
+    add_property(property_name=SATURATION_FUNCTION_IMBIBITION_TABLE_NO    report_label="IMBNUM")
+    add_property(property_name=MISCIBILITY_REGION    report_label="MISCNUM")
+    add_property(property_name=COAL_REGION    report_label="COALNUM")
+    add_property(property_name=ROCK_COMPACTION_REGION    report_label="ROCKNUM")
+    add_property(property_name=TRANSMISSIBILITY_MULTIPLIER_I    report_label="MULTX")
+    add_property(property_name=TRANSMISSIBILITY_MULTIPLIER_J    report_label="MULTY")
+    add_property(property_name=TRANSMISSIBILITY_MULTIPLIER_K    report_label="MULTZ")
+    add_property(property_name=TRANSMISSIBILITY_MULTIPLIER_I_M    report_label="MULTX-")
+    add_property(property_name=TRANSMISSIBILITY_MULTIPLIER_J_M    report_label="MULTY-")
+    add_property(property_name=TRANSMISSIBILITY_MULTIPLIER_K_M    report_label="MULTZ-")
+    add_property(property_name=TRANSMISSIBILITY_I    report_label="TRANX")
+    add_property(property_name=TRANSMISSIBILITY_J    report_label="TRANY")
+    add_property(property_name=TRANSMISSIBILITY_K    report_label="TRANZ")
+    On=TRUE
+    Units=ECLIPSE_FIELD
+    FileFormat=BINARY
+    select_all()
+    add_property(property_name=SATURATION_FUNCTION_DRAINAGE_TABLE_NO    report_label="SATNUM")
+    add_property(property_name=SATURATION_FUNCTION_IMBIBITION_TABLE_NO    report_label="IMBNUM")
+    add_property(property_name=MISCIBILITY_REGION    report_label="MISCNUM")
+    add_property(property_name=COAL_REGION    report_label="COALNUM")
+    add_property(property_name=ROCK_COMPACTION_REGION    report_label="ROCKNUM")
+    add_property(property_name=TRANSMISSIBILITY_MULTIPLIER_I    report_label="MULTX")
+    add_property(property_name=TRANSMISSIBILITY_MULTIPLIER_J    report_label="MULTY")
+    add_property(property_name=TRANSMISSIBILITY_MULTIPLIER_K    report_label="MULTZ")
+    add_property(property_name=TRANSMISSIBILITY_MULTIPLIER_I_M    report_label="MULTX-")
+    add_property(property_name=TRANSMISSIBILITY_MULTIPLIER_J_M    report_label="MULTY-")
+    add_property(property_name=TRANSMISSIBILITY_MULTIPLIER_K_M    report_label="MULTZ-")
+    add_property(property_name=TRANSMISSIBILITY_I    report_label="TRANX")
+    add_property(property_name=TRANSMISSIBILITY_J    report_label="TRANY")
+    add_property(property_name=TRANSMISSIBILITY_K    report_label="TRANZ")
+}
+
+Recurrent3DReport "MigratorRestartReport" {
+    remove_all()
+    Units=ECLIPSE_FIELD
+    FileFormat=BINARY
+    Unified=TRUE
+    On=TRUE
+    Frequency=TARGET_TIMES
+    Period=1
+}
+
+Recurrent3DReport "MigratorRestartReport" [
+               SelectedProperties    ReportLabels    
+                         PRESSURE      "PRESSURE"    
+                   OIL_SATURATION          "SOIL"    
+                 WATER_SATURATION          "SWAT"    
+                   GAS_SATURATION          "SGAS"    
+                 TRANSMISSIBILITY        "CONFAC"    
+          INTEGRATED_PERMEABILITY         "CONKH"    
+           SOLUTION_GAS_OIL_RATIO            "RS"    
+                  BRINE_MASS_CONC          "SALT"    
+          SATURATED_GAS_OIL_RATIO         "RSSAT"    
+     OIL_WATER_CAPILLARY_PRESSURE          "PCOW"    
+            GAS_RESERVOIR_DENSITY          "DENG"    
+            OIL_RESERVOIR_DENSITY          "DENO"    
+          WATER_RESERVOIR_DENSITY          "DENW"    
+              SATURATION_PRESSURE          "PSAT"    
+                   GAS_SATURATION          "SGAS"    
+                   OIL_SATURATION          "SOIL"    
+                 WATER_SATURATION          "SWAT"    
+      GAS_FORMATION_VOLUME_FACTOR            "BG"    
+      OIL_FORMATION_VOLUME_FACTOR            "BO"    
+    WATER_FORMATION_VOLUME_FACTOR            "BW"    
+       GAS_OIL_CAPILLARY_PRESSURE          "PCOG"    
+]
+
+XYPlotSummaryReport "MigratorSummaryReport" {
+    On=TRUE
+    Units=ECLIPSE_FIELD
+    FileFormat=BINARY
+    Unified=TRUE
+    FieldProperties "RESERVOIR" {
+        add_property(property_name=PRESSURE    report_label="FPR")
+        add_property(property_name=OIL_PRODUCTION_RATE    report_label="FOPR")
+        add_property(property_name=WATER_PRODUCTION_RATE    report_label="FWPR")
+        add_property(property_name=GAS_PRODUCTION_RATE    report_label="FGPR")
+        add_property(property_name=WATER_INJECTION_RATE    report_label="FWIR")
+        add_property(property_name=OIL_IN_PLACE    report_label="FOIP")
+        add_property(property_name=GAS_IN_PLACE    report_label="FGIP")
+        add_property(property_name=WATER_IN_PLACE    report_label="FWIP")
+        add_property(property_name=BRINE_IN_PLACE    report_label="FSIP")
+        add_property(property_name=BRINE_PRODUCTION_MASS_RATE    report_label="FSPR")
+        add_property(property_name=BRINE_PRODUCTION_MASS_CUML    report_label="FSPT")
+        add_property(property_name=BRINE_PRODUCTION_MASS_CONC    report_label="FSPC")
+        add_property(property_name=BRINE_INJECTION_MASS_RATE    report_label="FSIR")
+        add_property(property_name=BRINE_INJECTION_MASS_CUML    report_label="FSIT")
+        add_property(property_name=BRINE_INJECTION_MASS_CONC    report_label="FSIC")
+        add_property(property_name=ANION_PRODUCTION_EQUIV_MOLAR_RATE    report_label="FTPRANI")
+        add_property(property_name=ANION_PRODUCTION_EQUIV_MOLAR_CUML    report_label="FTPTANI")
+        add_property(property_name=ANION_INJECTION_EQUIV_MOLAR_RATE    report_label="FTIRANI")
+        add_property(property_name=ANION_INJECTION_EQUIV_MOLAR_CUML    report_label="FTITANI")
+        add_property(property_name=CATION_PRODUCTION_EQUIV_MOLAR_RATE    report_label="FTPRCAT")
+        add_property(property_name=CATION_PRODUCTION_EQUIV_MOLAR_CUML    report_label="FTPTCAT")
+        add_property(property_name=CATION_INJECTION_EQUIV_MOLAR_RATE    report_label="FTIRCAT")
+        add_property(property_name=CATION_INJECTION_EQUIV_MOLAR_CUML    report_label="FTITCAT")
+    }
+
+    WellProperties "WBHP_PROD1" {
+        add_well(well_name="PROD1")
+        add_property(property_name=BOTTOM_HOLE_PRESSURE    report_label="WBHP")
+    }
+
+    WellProperties "WBHP_PROD2" {
+        add_well(well_name="PROD2")
+        add_property(property_name=BOTTOM_HOLE_PRESSURE    report_label="WBHP")
+    }
+
+    WellProperties "WBHP_PROD3" {
+        add_well(well_name="PROD3")
+        add_property(property_name=BOTTOM_HOLE_PRESSURE    report_label="WBHP")
+    }
+
+    WellProperties "WBHP_PROD4" {
+        add_well(well_name="PROD4")
+        add_property(property_name=BOTTOM_HOLE_PRESSURE    report_label="WBHP")
+    }
+
+    WellProperties "WOPR_PROD1" {
+        add_well(well_name="PROD1")
+        add_property(property_name=OIL_PRODUCTION_RATE    report_label="WOPR")
+    }
+
+    WellProperties "WOPR_PROD2" {
+        add_well(well_name="PROD2")
+        add_property(property_name=OIL_PRODUCTION_RATE    report_label="WOPR")
+    }
+
+    WellProperties "WOPR_PROD3" {
+        add_well(well_name="PROD3")
+        add_property(property_name=OIL_PRODUCTION_RATE    report_label="WOPR")
+    }
+
+    WellProperties "WOPR_PROD4" {
+        add_well(well_name="PROD4")
+        add_property(property_name=OIL_PRODUCTION_RATE    report_label="WOPR")
+    }
+
+    WellProperties "WWPR_PROD1" {
+        add_well(well_name="PROD1")
+        add_property(property_name=WATER_PRODUCTION_RATE    report_label="WWPR")
+    }
+
+    WellProperties "WWPR_PROD2" {
+        add_well(well_name="PROD2")
+        add_property(property_name=WATER_PRODUCTION_RATE    report_label="WWPR")
+    }
+
+    WellProperties "WWPR_PROD3" {
+        add_well(well_name="PROD3")
+        add_property(property_name=WATER_PRODUCTION_RATE    report_label="WWPR")
+    }
+
+    WellProperties "WWPR_PROD4" {
+        add_well(well_name="PROD4")
+        add_property(property_name=WATER_PRODUCTION_RATE    report_label="WWPR")
+    }
+
+    WellProperties "WBHP_IW1" {
+        add_well(well_name="IW1")
+        add_property(property_name=BOTTOM_HOLE_PRESSURE    report_label="WBHP")
+    }
+
+    WellProperties "WBHP_IW2" {
+        add_well(well_name="IW2")
+        add_property(property_name=BOTTOM_HOLE_PRESSURE    report_label="WBHP")
+    }
+
+    WellProperties "WBHP_IW3" {
+        add_well(well_name="IW3")
+        add_property(property_name=BOTTOM_HOLE_PRESSURE    report_label="WBHP")
+    }
+
+    WellProperties "WWIR_IW1" {
+        add_well(well_name="IW1")
+        add_property(property_name=WATER_INJECTION_RATE    report_label="WWIR")
+    }
+
+    WellProperties "WWIR_IW2" {
+        add_well(well_name="IW2")
+        add_property(property_name=WATER_INJECTION_RATE    report_label="WWIR")
+    }
+
+    WellProperties "WWIR_IW3" {
+        add_well(well_name="IW3")
+        add_property(property_name=WATER_INJECTION_RATE    report_label="WWIR")
+    }
+
+    WellProperties "WTPRANI_PROD1" {
+        add_well(well_name="PROD1")
+        add_property(property_name=ANION_PRODUCTION_EQUIV_MOLAR_RATE    report_label="WTPRANI")
+    }
+
+    WellProperties "WTPRANI_PROD2" {
+        add_well(well_name="PROD2")
+        add_property(property_name=ANION_PRODUCTION_EQUIV_MOLAR_RATE    report_label="WTPRANI")
+    }
+
+    WellProperties "WTPRANI_PROD3" {
+        add_well(well_name="PROD3")
+        add_property(property_name=ANION_PRODUCTION_EQUIV_MOLAR_RATE    report_label="WTPRANI")
+    }
+
+    WellProperties "WTPRANI_PROD4" {
+        add_well(well_name="PROD4")
+        add_property(property_name=ANION_PRODUCTION_EQUIV_MOLAR_RATE    report_label="WTPRANI")
+    }
+
+    WellProperties "WTPTANI_PROD1" {
+        add_well(well_name="PROD1")
+        add_property(property_name=ANION_PRODUCTION_EQUIV_MOLAR_CUML    report_label="WTPTANI")
+    }
+
+    WellProperties "WTPTANI_PROD2" {
+        add_well(well_name="PROD2")
+        add_property(property_name=ANION_PRODUCTION_EQUIV_MOLAR_CUML    report_label="WTPTANI")
+    }
+
+    WellProperties "WTPTANI_PROD3" {
+        add_well(well_name="PROD3")
+        add_property(property_name=ANION_PRODUCTION_EQUIV_MOLAR_CUML    report_label="WTPTANI")
+    }
+
+    WellProperties "WTPTANI_PROD4" {
+        add_well(well_name="PROD4")
+        add_property(property_name=ANION_PRODUCTION_EQUIV_MOLAR_CUML    report_label="WTPTANI")
+    }
+
+    WellProperties "WTIRANI_IW1" {
+        add_well(well_name="IW1")
+        add_property(property_name=ANION_INJECTION_EQUIV_MOLAR_RATE    report_label="WTIRANI")
+    }
+
+    WellProperties "WTIRANI_IW2" {
+        add_well(well_name="IW2")
+        add_property(property_name=ANION_INJECTION_EQUIV_MOLAR_RATE    report_label="WTIRANI")
+    }
+
+    WellProperties "WTIRANI_IW3" {
+        add_well(well_name="IW3")
+        add_property(property_name=ANION_INJECTION_EQUIV_MOLAR_RATE    report_label="WTIRANI")
+    }
+
+    WellProperties "WTITANI_IW1" {
+        add_well(well_name="IW1")
+        add_property(property_name=ANION_INJECTION_EQUIV_MOLAR_CUML    report_label="WTITANI")
+    }
+
+    WellProperties "WTITANI_IW2" {
+        add_well(well_name="IW2")
+        add_property(property_name=ANION_INJECTION_EQUIV_MOLAR_CUML    report_label="WTITANI")
+    }
+
+    WellProperties "WTITANI_IW3" {
+        add_well(well_name="IW3")
+        add_property(property_name=ANION_INJECTION_EQUIV_MOLAR_CUML    report_label="WTITANI")
+    }
+
+    WellProperties "WTPRCAT_PROD1" {
+        add_well(well_name="PROD1")
+        add_property(property_name=CATION_PRODUCTION_EQUIV_MOLAR_RATE    report_label="WTPRCAT")
+    }
+
+    WellProperties "WTPRCAT_PROD2" {
+        add_well(well_name="PROD2")
+        add_property(property_name=CATION_PRODUCTION_EQUIV_MOLAR_RATE    report_label="WTPRCAT")
+    }
+
+    WellProperties "WTPRCAT_PROD3" {
+        add_well(well_name="PROD3")
+        add_property(property_name=CATION_PRODUCTION_EQUIV_MOLAR_RATE    report_label="WTPRCAT")
+    }
+
+    WellProperties "WTPRCAT_PROD4" {
+        add_well(well_name="PROD4")
+        add_property(property_name=CATION_PRODUCTION_EQUIV_MOLAR_RATE    report_label="WTPRCAT")
+    }
+
+    WellProperties "WTPTCAT_PROD1" {
+        add_well(well_name="PROD1")
+        add_property(property_name=CATION_PRODUCTION_EQUIV_MOLAR_CUML    report_label="WTPTCAT")
+    }
+
+    WellProperties "WTPTCAT_PROD2" {
+        add_well(well_name="PROD2")
+        add_property(property_name=CATION_PRODUCTION_EQUIV_MOLAR_CUML    report_label="WTPTCAT")
+    }
+
+    WellProperties "WTPTCAT_PROD3" {
+        add_well(well_name="PROD3")
+        add_property(property_name=CATION_PRODUCTION_EQUIV_MOLAR_CUML    report_label="WTPTCAT")
+    }
+
+    WellProperties "WTPTCAT_PROD4" {
+        add_well(well_name="PROD4")
+        add_property(property_name=CATION_PRODUCTION_EQUIV_MOLAR_CUML    report_label="WTPTCAT")
+    }
+
+    WellProperties "WTIRCAT_IW1" {
+        add_well(well_name="IW1")
+        add_property(property_name=CATION_INJECTION_EQUIV_MOLAR_RATE    report_label="WTIRCAT")
+    }
+
+    WellProperties "WTIRCAT_IW2" {
+        add_well(well_name="IW2")
+        add_property(property_name=CATION_INJECTION_EQUIV_MOLAR_RATE    report_label="WTIRCAT")
+    }
+
+    WellProperties "WTIRCAT_IW3" {
+        add_well(well_name="IW3")
+        add_property(property_name=CATION_INJECTION_EQUIV_MOLAR_RATE    report_label="WTIRCAT")
+    }
+
+    WellProperties "WTITCAT_IW1" {
+        add_well(well_name="IW1")
+        add_property(property_name=CATION_INJECTION_EQUIV_MOLAR_CUML    report_label="WTITCAT")
+    }
+
+    WellProperties "WTITCAT_IW2" {
+        add_well(well_name="IW2")
+        add_property(property_name=CATION_INJECTION_EQUIV_MOLAR_CUML    report_label="WTITCAT")
+    }
+
+    WellProperties "WTITCAT_IW3" {
+        add_well(well_name="IW3")
+        add_property(property_name=CATION_INJECTION_EQUIV_MOLAR_CUML    report_label="WTITCAT")
+    }
+
+    GridCellProperties "BWVIS" {
+        Cells=[(7 3 1)  (7 3 2)  (7 3 3)  (7 3 4)  (7 3 5)  (7 3 6)  (7 3 7)  (7 3 8)  (7 3 9)  (7 3 10)]
+        add_property(property_name=WATER_VISCOSITY    report_label="BWVIS")
+    }
+
+    GridCellProperties "BDENW" {
+        Cells=[(7 3 1)  (7 3 2)  (7 3 3)  (7 3 4)  (7 3 5)  (7 3 6)  (7 3 7)  (7 3 8)  (7 3 9)  (7 3 10)]
+        add_property(property_name=WATER_RESERVOIR_DENSITY    report_label="BDENW")
+    }
+
+    GridCellProperties "BTCNFANI" {
+        Cells=[(7 3 1)  (7 3 2)  (7 3 3)  (7 3 4)  (7 3 5)  (7 3 6)  (7 3 7)  (7 3 8)  (7 3 9)  (7 3 10)]
+        add_property(property_name=ANION_IN_FLUID_EQUIV_CONC    report_label="BTCNFANI")
+    }
+
+    GridCellProperties "BTCNFCAT" {
+        Cells=[(7 3 1)  (7 3 2)  (7 3 3)  (7 3 4)  (7 3 5)  (7 3 6)  (7 3 7)  (7 3 8)  (7 3 9)  (7 3 10)]
+        add_property(property_name=DIVAL_CATION_IN_FLUID_EQUIV_CONC    report_label="BTCNFCAT")
+    }
+
+    SimulationEngineProperties "AllSimulationEngineProperties" {
+        add_property(property_name=CPU_TIME_CUML    report_label="TCPU")
+        add_property(property_name=ELAPSED_TIME    report_label="ELAPSED")
+        add_property(property_name=NUMBER_NEWTONS    report_label="NEWTON")
+        add_property(property_name=NUMBER_LINEARS_PER_NEWTON    report_label="NLINEARS")
+        add_property(property_name=NUMBER_LINEARS    report_label="MLINEARS")
+        add_property(property_name=NUMBER_LINEARS_CUML    report_label="MSUMLINS")
+        add_property(property_name=TOTAL_NUMBER_NEWTONS    report_label="MSUMNEWT")
+        add_property(property_name=TIMESTEP_LENGTH    report_label="TIMESTEP")
+        add_property(property_name=AVERAGE_NEWTON_FLASH_CUML    report_label="NEWTFL")
+        add_property(property_name=TOTAL_NUMBER_TWO_PHASE_FLASH_CALCULATIONS    report_label="NNUMFL")
+        add_property(property_name=TOTAL_NUMBER_STABILITY_TEST_CALCULATIONS    report_label="NNUMST")
+        add_property(property_name=NUMBER_CALLS_FALLBACK_ROUTINES_FLASH    report_label="NBAKFL")
+        add_property(property_name=CPU_TIME    report_label="TCPUTS")
+        add_property(property_name=CPU_TIME_PER_SIMULATION_TIME    report_label="TCPUDAY")
+        add_property(property_name=FRACTION_IMPLICIT_CELLS_AIM    report_label="NAIMFRAC")
+        add_property(property_name=MEMORY_USAGE    report_label="MEMORYTS")
+    }
+
+    OutputRSM=TRUE
+    SimulationEngineProperties "AllSimulationEngineProperties" {
+        add_property(property_name=DATE_DECIMAL_YEAR    report_label="DATEYRS")
+        add_property(property_name=YEAR_AS_DECIMAL    report_label="YEAR")
+        add_property(property_name=MONTH_AS_DECIMAL    report_label="MONTH")
+        add_property(property_name=DAY_AS_DECIMAL    report_label="DAY")
+    }
+
+}
+
+Strategy "Strategy" {
+}
+
+
+START
+#DATE  "01-Jan-2000"    
+
+Recurrent3DReport "MigratorRestartReport" {
+    remove_all()
+    On=TRUE
+    Frequency=TARGET_TIMES
+    Period=1
+}
+
+Recurrent3DReport "MigratorRestartReport" [
+               SelectedProperties    ReportLabels    
+                         PRESSURE      "PRESSURE"    
+                   OIL_SATURATION          "SOIL"    
+                 WATER_SATURATION          "SWAT"    
+                   GAS_SATURATION          "SGAS"    
+                 TRANSMISSIBILITY        "CONFAC"    
+          INTEGRATED_PERMEABILITY         "CONKH"    
+           SOLUTION_GAS_OIL_RATIO            "RS"    
+                  BRINE_MASS_CONC          "SALT"    
+          SATURATED_GAS_OIL_RATIO         "RSSAT"    
+     OIL_WATER_CAPILLARY_PRESSURE          "PCOW"    
+            GAS_RESERVOIR_DENSITY          "DENG"    
+            OIL_RESERVOIR_DENSITY          "DENO"    
+          WATER_RESERVOIR_DENSITY          "DENW"    
+              SATURATION_PRESSURE          "PSAT"    
+                   GAS_SATURATION          "SGAS"    
+                   OIL_SATURATION          "SOIL"    
+                 WATER_SATURATION          "SWAT"    
+      GAS_FORMATION_VOLUME_FACTOR            "BG"    
+      OIL_FORMATION_VOLUME_FACTOR            "BO"    
+    WATER_FORMATION_VOLUME_FACTOR            "BW"    
+       GAS_OIL_CAPILLARY_PRESSURE          "PCOG"    
+]
+
+StaticList "IG\*" {
+    EntityList=[ Well( "IG1" "IG2") ]
+}
+
+StaticList "IW\*" {
+    EntityList=[ Well( "IW1" "IW2" "IW3") ]
+}
+
+StaticList "P\*" {
+    EntityList=[ Well( "PROD1" "PROD2" "PROD3" "PROD4") ]
+}
+
+Group "MAN1" {
+    Members=[ Well( "PROD1" "PROD2" "PROD3" "PROD4" "IW1" "IW2" "IG1") ]
+}
+
+Group "MAN2" {
+    Members=[ Well( "IW3" "IG2") ]
+}
+
+Group "FIELD" {
+    Members=[ Group( "MAN1" "MAN2") ]
+}
+
+Well "IG2" {
+    AutomaticClosureBehavior=ALL_COMPLETIONS_SHUTIN
+}
+
+Well "IG1" {
+    AutomaticClosureBehavior=ALL_COMPLETIONS_SHUTIN
+}
+
+Well "IW3" {
+    AutomaticClosureBehavior=ALL_COMPLETIONS_SHUTIN
+}
+
+Well "IW2" {
+    AutomaticClosureBehavior=ALL_COMPLETIONS_SHUTIN
+}
+
+Well "IW1" {
+    AutomaticClosureBehavior=ALL_COMPLETIONS_SHUTIN
+}
+
+Well "PROD4" {
+    AutomaticClosureBehavior=ALL_COMPLETIONS_SHUTIN
+}
+
+Well "PROD3" {
+    AutomaticClosureBehavior=ALL_COMPLETIONS_SHUTIN
+}
+
+Well "PROD2" {
+    AutomaticClosureBehavior=ALL_COMPLETIONS_SHUTIN
+}
+
+Well "PROD1" {
+    AutomaticClosureBehavior=ALL_COMPLETIONS_SHUTIN
+}
+
+Well "PROD4" {
+    Status=OPEN
+}
+
+Well "PROD3" {
+    Status=OPEN
+}
+
+Well "PROD2" {
+    Status=OPEN
+}
+
+Well "PROD1" {
+    Status=OPEN
+}
+
+Well "IW3" {
+    Status=OPEN
+}
+
+Well "IW2" {
+    Status=OPEN
+}
+
+Well "IW1" {
+    Status=OPEN
+}
+
+Well "IG2" {
+    Status=OPEN
+}
+
+Well "IG1" {
+    Status=OPEN
+}
+
+Well "PROD4" {
+    remove_all_constraints_except(constraint_ids=[DRAWDOWN_PIW  MAX_DRAWDOWN])
+    Constraints=[ADD (5000 OIL_PRODUCTION_RATE)  (2000 BOTTOM_HOLE_PRESSURE)]
+}
+
+Well "PROD3" {
+    remove_all_constraints_except(constraint_ids=[DRAWDOWN_PIW  MAX_DRAWDOWN])
+    Constraints=[ADD (5000 OIL_PRODUCTION_RATE)  (2000 BOTTOM_HOLE_PRESSURE)]
+}
+
+Well "PROD2" {
+    remove_all_constraints_except(constraint_ids=[DRAWDOWN_PIW  MAX_DRAWDOWN])
+    Constraints=[ADD (5000 OIL_PRODUCTION_RATE)  (2000 BOTTOM_HOLE_PRESSURE)]
+}
+
+Well "PROD1" {
+    remove_all_constraints_except(constraint_ids=[DRAWDOWN_PIW  MAX_DRAWDOWN])
+    Constraints=[ADD (5000 OIL_PRODUCTION_RATE)  (2000 BOTTOM_HOLE_PRESSURE)]
+}
+
+Well "P*" {
+    Type=PRODUCER
+    Status=OPEN
+    HistoricalData=[]
+    HistoricalControlModes=[]
+}
+
+FluidStreamMgr {
+    BlackOilMixingBehavior=SIMPLIFIED
+}
+
+Well "IW*" {
+    Status=OPEN
+    HistoricalData=[]
+    HistoricalControlModes=[]
+    Type=WATER_INJECTOR
+    HonorInjectionStreamAvailability=FALSE
+    UseDefaultBHP=FALSE
+    Constraints=[
+        data                property    
+        8000    WATER_INJECTION_RATE    
+        6000    BOTTOM_HOLE_PRESSURE    
+    ]
+}
+
+Well "IG*" {
+    Status=OPEN
+    HistoricalData=[]
+    HistoricalControlModes=[]
+    Type=GAS_INJECTOR
+    HonorInjectionStreamAvailability=FALSE
+    UseDefaultBHP=FALSE
+    Constraints=[
+        data                property    
+        8000      GAS_INJECTION_RATE    
+        6000    BOTTOM_HOLE_PRESSURE    
+    ]
+}
+
+Well "IG1" {
+    Completion "COMPLETION1" {
+        Status=OPEN
+    }
+
+}
+
+Well "IG2" {
+    Completion "COMPLETION1" {
+        Status=OPEN
+    }
+
+}
+
+Well "IW1" {
+    Completion "COMPLETION3" {
+        Status=OPEN
+    }
+
+    Completion "COMPLETION2" {
+        Status=OPEN
+    }
+
+    Completion "COMPLETION1" {
+        Status=OPEN
+    }
+
+}
+
+Well "IW2" {
+    Completion "COMPLETION3" {
+        Status=OPEN
+    }
+
+    Completion "COMPLETION2" {
+        Status=OPEN
+    }
+
+    Completion "COMPLETION1" {
+        Status=OPEN
+    }
+
+}
+
+Well "IW3" {
+    Completion "COMPLETION3" {
+        Status=OPEN
+    }
+
+    Completion "COMPLETION2" {
+        Status=OPEN
+    }
+
+    Completion "COMPLETION1" {
+        Status=OPEN
+    }
+
+}
+
+Well "PROD1" {
+    Completion "COMPLETION4" {
+        Status=OPEN
+    }
+
+    Completion "COMPLETION3" {
+        Status=OPEN
+    }
+
+    Completion "COMPLETION2" {
+        Status=OPEN
+    }
+
+    Completion "COMPLETION1" {
+        Status=OPEN
+    }
+
+}
+
+Well "PROD2" {
+    Completion "COMPLETION1" {
+        Status=OPEN
+    }
+
+}
+
+Well "PROD3" {
+    Completion "COMPLETION2" {
+        Status=OPEN
+    }
+
+    Completion "COMPLETION1" {
+        Status=OPEN
+    }
+
+}
+
+Well "PROD4" {
+    Completion "COMPLETION2" {
+        Status=OPEN
+    }
+
+    Completion "COMPLETION1" {
+        Status=OPEN
+    }
+
+}
+
+
+DATE  "01-Feb-2000"    
+#TIME  31.0    
+#TIME is in days
+
+DATE  "01-Mar-2000"    
+#TIME  60.0    
+
+DATE  "01-Apr-2000"    
+#TIME  91.0    
+
+DATE  "01-May-2000"    
+#TIME  121.0    
+
+FluidSourceExternal "IW1_WATER_SOURCE" {
+    Composition=[
+                       data                      property    
+        0.00180212650928095    COMPONENT_EQUIV_CONC["CA"]    
+        0.00608001836417486    COMPONENT_EQUIV_CONC["CL"]    
+    ]
+    Phase=WATER
+    AvailableRate=(1e+20 WATER_FLOW_RATE)
+}
+
+Well "IW1" {
+    InjectionStream=FluidSourceExternal('IW1_WATER_SOURCE')
+}
+
+
+DATE  "01-Jun-2000"    
+#TIME  152.0    
+
+DATE  "01-Jul-2000"    
+#TIME  182.0    
+
+DATE  "01-Aug-2000"    
+#TIME  213.0    
+
+DATE  "01-Sep-2000"    
+#TIME  244.0    
+
+DATE  "01-Oct-2000"    
+#TIME  274.0    
+
+DATE  "01-Nov-2000"    
+#TIME  305.0    
+
+DATE  "01-Dec-2000"    
+#TIME  335.0    
+
+DATE  "01-Jan-2001"  SAVE_RESTART    "*.0000"      
+#TIME  366.0 
+
+END_INPUT
