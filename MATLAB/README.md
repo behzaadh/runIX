@@ -23,7 +23,7 @@ This MATLAB code serves as a simulator for the Intersect (IX) reservoir simulato
 
    1. **Update Field Management Strategy File:**
       - Read the field management strategy file and append a new time step.
-      - Set the date and save restart file information.
+      - Set the date and save the restart file information.
 
    2. **Update AFI File:**
       - Read the AFI file and update the initial restart time.
@@ -44,4 +44,4 @@ This MATLAB code serves as a simulator for the Intersect (IX) reservoir simulato
 - The user is responsible for setting the initial restart time manually.
 - Results are printed to the Command Window, indicating the successful completion of the simulation.
 
-Feel free to reach out to the author (behzadh@dtu.dk) for any questions or assistance.
+Feel free to contact me (behzadh@dtu.dk) for any questions or assistance.
