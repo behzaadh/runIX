@@ -1,2 +1,4 @@
-# runIX
-Run the Intersect (IX) reservoir simulator (SLB software) by assigning different time steps, allowing for the modification of parameters as needed.
+##Intersect (IX) Simulator with Restart Files
+
+#Overview
+This MATLAB code serves as a simulator for the Intersect (IX) reservoir simulator (SLB software), designed to create restart files at specified time steps during the simulation. The user provides the initial restart time, and the code runs the simulation until the specified end time, generating restart files at regular intervals.
