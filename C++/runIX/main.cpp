@@ -4,10 +4,12 @@
 #include <ctime>
 #include <iomanip>
 #include <sstream>
+#include <filesystem>
+
 
 void printInFrame(const std::string& str) {
     // Calculate the width of the frame based on the length of the string
-    int frameWidth = str.length() + 4; // 2 '#' on each side
+    size_t frameWidth = str.length() + 4; // 2 '#' on each side
 
     // Print the top border
     std::cout << std::setw(frameWidth) << std::setfill('#') << '#' << std::endl;
@@ -110,6 +112,12 @@ int main(int argc, char* argv[]) {
     printInFrame(casename_afi);
     printInFrame(fieldManagmentStrategyFM_file);
 
+    // Extract folder path, case name, and extension
+    std::filesystem::path casename_afi_path = casename_afi;
+    std::filesystem::path folderPath = casename_afi_path.parent_path();
+    std::string caseName = casename_afi_path.stem().string();
+    std::string ext = casename_afi_path.extension().string();
+
     // input simulation parameters
     std::string formatOut           = "%d-%b-%Y";
     std::tm startSimulationTime     = {0, 0, 0, 1, 0, 2000-1900}; // The first simulation time, where the model initialized
@@ -156,25 +164,23 @@ int main(int argc, char* argv[]) {
         fmFileWrite << "END_INPUT";
         fmFileWrite.close();
 
-        // update the afi file
-        std::ifstream afiFile(casename_afi);
-        std::string afiContent((std::istreambuf_iterator<char>(afiFile)), std::istreambuf_iterator<char>());
-        afiFile.close();
-
-        int prevTime = sec2day(std::difftime(initialRestartTime_t, startSimulationTime_t));
-        int curTime = sec2day(std::difftime(startRestartTime_t, startSimulationTime_t));
-        size_t posAfi = afiContent.find(int2str(prevTime));
-        afiContent.replace(posAfi, int2str(curTime).length(), int2str(curTime));
-
-        std::ofstream afiFileWrite(casename_afi);
-        afiFileWrite << afiContent;
-        afiFileWrite.close();
-
         // run the simulation
         std::string command = "eclrun ix " + casename_afi;
         system(command.c_str());
 
+        try {
+            // Use std::filesystem::rename to move the file with overwrite
+            if (std::filesystem::exists(casename_afi_path)) {
+                std::filesystem::remove(casename_afi_path);
+            }
+            std::filesystem::path sourceFilePath = folderPath.string() + "/" + caseName +"_restart_" + std::to_string(sec2day(std::difftime(startRestartTime_t, startSimulationTime_t))) + "_0" + ext;
+            std::filesystem::rename(sourceFilePath, casename_afi_path);
+        } catch (const std::filesystem::filesystem_error& e) {
+            std::cerr << "Error moving file: " << e.what() << std::endl;
+        }
+
         // reading results from the restart file
+
         // update the start time
         initialRestartTime_t = startRestartTime_t;
         startRestartTime_t = addOneMonth(initialRestartTime_t);

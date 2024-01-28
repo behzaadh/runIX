@@ -26,9 +26,13 @@ startRestartTime    = initialRestartTime + incrementRestartTime;
 endRestartTime      = datetime(2002,01,01,00,00,00);
 fieldManagmentStrategyFM_file = '../Examples/Brine_MultipleComponent_ECL2IX_FM.ixf';
 casename_afi        = '../Examples/Brine_MultipleComponent.afi';
+[folderPath, caseName, ext] = fileparts(casename_afi);
+tempFolder          = [folderPath, '/', 'temp'];    % temporary folder to store the restart files
 
 % run the simulation
-i = 1;
+i       = 1;
+i_x     = 1;
+isFirstTimeStep = true;
 while startRestartTime <= endRestartTime
 
     %% updating field management strategy file (adding new timestep)
@@ -49,26 +53,55 @@ while startRestartTime <= endRestartTime
         error('Unable to open the field management strategy file for appending the new time step.');
     end
     fprintf(fid, '%s', f);
-    fprintf(fid, '\n');
+    fprintf(fid, '\n'); 
     fprintf(fid, ['#TIME   ', num2str(days(startRestartTime-startSimulationTime))]);
     fprintf(fid, '\n');
     fprintf(fid, '\n');
     fprintf(fid, 'END_INPUT');
     fclose(fid);
 
-    %% update the afi file
-    fid     = fopen(casename_afi,'r');
-    f       = fread(fid,'*char')';
-    fclose(fid);
-    f       = strrep(f,sprintf( '%.1f', days(initialRestartTime-startSimulationTime)),sprintf( '%.1f', days(startRestartTime-startSimulationTime)));
-    fid     = fopen(casename_afi,'w+');
-    fprintf(fid, f);
-    fclose(fid);
     %% run the simulation
     command = sprintf('eclrun ix %s', casename_afi);
     system(command);
-    
+
+    %% update the afi file
+    try
+        movefile([folderPath, '/', caseName,'_restart_', num2str(days(startRestartTime-startSimulationTime)),'_0', ext], casename_afi, 'f');
+    catch
+        disp('Error copying file.');
+    end
     %% reading results from the restart file
+    Reactions(casename_afi, i);
+
+    %% Keep current time step result
+    try
+        movefile([folderPath, '/', caseName,'.INSPEC'], [folderPath, '/', caseName,'.INSPEC.',sprintf( '%04i', i)], 'f');
+        movefile([folderPath, '/', caseName,'.PRT'], [folderPath, '/', caseName,'.PRT.',sprintf( '%04i', i)], 'f');
+        movefile([folderPath, '/', caseName,'.RSSPEC'], [folderPath, '/', caseName,'.RSSPEC.',sprintf( '%04i', i)], 'f');
+        movefile([folderPath, '/', caseName,'.SMSPEC'], [folderPath, '/', caseName,'.SMSPEC.',sprintf( '%04i', i)], 'f');
+    catch
+        disp('Error renaming currect time step result.');
+    end
+    if isFirstTimeStep
+        % Check if the folder exists
+        if ~exist(tempFolder, 'dir')
+            % If the folder doesn't exist, create it
+            mkdir(tempFolder);
+            disp(['Folder created at: ' tempFolder]);
+        end
+        % This line of code retrieves the names of files in the specified folder that have a file extension starting with 'X'
+        fileNames = {dir(fullfile(folderPath, ['*' '.X*'])).name};
+        i_x_temp = zeros(1,length(fileNames));
+        for j = 1:length(fileNames)
+            % This line of code extracts the number from the file name	
+            i_x_temp(j) = str2double(regexp(strjoin(fileNames(j)), '\d+', 'match'));
+        end
+        i_x = max(i_x_temp);
+        isFirstTimeStep = false;
+    end
+    %% move restart files to the temp folder
+    movefile([folderPath, '/', caseName,'.X',sprintf( '%04i', i_x)], [tempFolder, '/', caseName,'.X',sprintf( '%04i', i_x)], 'f');
+    movefile([folderPath, '/', caseName,'.S',sprintf( '%04i', i_x)], [tempFolder, '/', caseName,'.S',sprintf( '%04i', i_x)], 'f');
     % update the start time
     initialRestartTime = startRestartTime;
     startRestartTime = startRestartTime + incrementRestartTime;
@@ -80,5 +113,13 @@ while startRestartTime <= endRestartTime
         startRestartTime = endRestartTime;
     end
     i = i + 1;
+    i_x = i_x + 1;
     clc;
 end
+
+for k = max(i_x_temp):i_x
+    movefile([tempFolder, '/', caseName,'.X',sprintf( '%04i', k)], [folderPath, '/', caseName,'.X',sprintf( '%04i', k)], 'f');
+    movefile([tempFolder, '/', caseName,'.S',sprintf( '%04i', k)], [folderPath, '/', caseName,'.S',sprintf( '%04i', k)], 'f');
+end
+
+disp('----All time step results are transferreds successfully!----');

@@ -72,7 +72,7 @@ Recurrent3DReport "MigratorRestartReport" {
     remove_all()
     Units=ECLIPSE_FIELD
     FileFormat=BINARY
-    Unified=TRUE
+    Unified=FALSE
     On=TRUE
     Frequency=TARGET_TIMES
     Period=1
@@ -107,7 +107,7 @@ XYPlotSummaryReport "MigratorSummaryReport" {
     On=TRUE
     Units=ECLIPSE_FIELD
     FileFormat=BINARY
-    Unified=TRUE
+    Unified=FALSE
     FieldProperties "RESERVOIR" {
         add_property(property_name=PRESSURE    report_label="FPR")
         add_property(property_name=OIL_PRODUCTION_RATE    report_label="FOPR")
